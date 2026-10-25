@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Publications | ULTRA Lab</title>
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="publications">
+
+  <header id="site-header"></header>
+
+  <section class="page-hero"></section>
+
+  <section class="pub-filter-bar-section">
+    <div class="pub-filter-bar">
+      <div class="pub-filter-group">
+        <span class="pub-filter-label" id="pub-filter-year-label"></span>
+        <div class="pub-filter-chips" id="pub-filter-year-chips"></div>
+      </div>
+      <div class="pub-filter-group">
+        <span class="pub-filter-label" id="pub-filter-type-label"></span>
+        <label class="pub-filter-checkbox">
+          <input type="checkbox" id="pub-filter-type-journal" checked>
+          <span id="pub-filter-type-journal-label"></span>
+        </label>
+        <label class="pub-filter-checkbox">
+          <input type="checkbox" id="pub-filter-type-conference" checked>
+          <span id="pub-filter-type-conference-label"></span>
+        </label>
+        <label class="pub-filter-checkbox">
+          <input type="checkbox" id="pub-filter-type-patent" checked>
+          <span id="pub-filter-type-patent-label"></span>
+        </label>
+      </div>
+      <div class="pub-filter-group">
+        <input type="text" class="pub-filter-search" id="pub-filter-author">
+      </div>
+      <button type="button" class="btn-text" id="pub-filter-clear"></button>
+    </div>
+    <p class="pub-filter-empty" id="pub-filter-empty-msg" style="display: none;"></p>
+  </section>
+
+  <section class="section" id="publications-journal-section">
+    <h2 class="section-title" id="publications-journal-title"></h2>
+    <ol class="publication-list journal-list" id="publications-journal-list"></ol>
+  </section>
+
+  <section class="section section-alt" id="publications-conference-section">
+    <h2 class="section-title" id="publications-conference-title"></h2>
+    <ol class="publication-list" id="publications-conference-list"></ol>
+  </section>
+
+  <section class="section" id="publications-patent-section">
+    <h2 class="section-title" id="publications-patent-title"></h2>
+    <ol class="publication-list" id="publications-patent-list"></ol>
+  </section>
+
+  <footer id="site-footer"></footer>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data/contact.js"></script>
+  <script src="js/data/publications.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/pages/publications.js"></script>
+</body>
+</html>

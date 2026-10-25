@@ -1,0 +1,1133 @@
+/* ===== Design tokens =====
+   主題色為清華大學紫色（暫用常見色碼，請依正式品牌規範微調 --color-primary）。 */
+:root {
+  --color-bg: #000000;
+  --color-bg-alt: #1a1129;
+  --color-surface: #221735;
+  --color-text: #f3f0f9;
+  --color-text-muted: #b6abc9;
+  --color-primary: #4b2e83;
+  --color-primary-dark: #2c1a52;
+  --color-primary-light: #6b46b3;
+  --color-accent: #c9a4ff;
+  --color-accent-dark: #a578f0;
+  --color-accent-translucent: rgba(201, 164, 255, 0.5);
+  --color-border: #332746;
+  --header-height: 78px; /* 預設值，js/main.js 會在量到實際 nav-bar 高度後覆寫這個變數 */
+
+  --font-base: "Inter", "Segoe UI", "Microsoft JhengHei", "PingFang TC", system-ui, sans-serif;
+
+  --max-width: 1120px;
+  --radius: 10px;
+  --shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== Header / Nav ===== */
+#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  color: #fff;
+  transition: background-color 0.25s ease;
+}
+
+/* 往下滾動時變淡一點，避免一直擋住內容閱讀；class 由 js/main.js 監聽 scroll 事件加上。 */
+#site-header.is-scrolled {
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+}
+
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  position: relative;
+  transform: translateY(38px);
+}
+
+/* logo 兩側各自向左右延伸到畫面邊緣的紫色線，line 不會穿過 logo 本身。 */
+.nav-brand::before,
+.nav-brand::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 100vw;
+  height: 1px;
+  background: var(--color-accent);
+}
+
+.nav-brand::before {
+  right: 100%;
+}
+
+.nav-brand::after {
+  left: 100%;
+}
+
+.nav-brand .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 8px var(--color-accent);
+}
+
+.nav-logo {
+  height: 48px;
+  width: auto;
+}
+
+/* nav-links（頁面連結）跟 nav-actions（語言切換＋漢堡按鈕）包在同一個 nav-right 裡，
+   這樣 .nav-bar 本身永遠只有 brand／nav-right 兩個 flex 子項，space-between 才會把
+   nav-right 整體推到最右邊；漢堡選單收合的只是裡面的 nav-links，nav-actions 不受影響，
+   所以語言切換按鈕在窄螢幕時仍然顯示在漢堡按鈕旁邊，不會被收進選單裡。 */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  color: #ddd3ee;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.nav-links a.active {
+  border-bottom: 2px solid var(--color-accent);
+  padding-bottom: 4px;
+}
+
+.lang-toggle {
+  background-color: var(--color-accent-translucent);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.lang-toggle:hover {
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: #fff;
+}
+
+.nav-toggle-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* ===== Hero =====
+   底圖：assets/img/hero/hero-cover.jpg。文字靠 text-shadow 維持可讀性，不疊加色塊。 */
+.hero {
+  background: var(--color-primary-dark) url("../assets/img/hero/hero-cover.jpg") center / cover no-repeat;
+  color: #fff;
+  height: calc(100vh - var(--header-height));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 2.4rem;
+  margin: 0 0 10px;
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+.hero-fullname {
+  color: #fff;
+  font-size: 1.05rem;
+  max-width: 640px;
+  margin: 0 auto 28px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== Sub-page banner（Research / Team / Publications / Contact 用） ===== */
+.page-hero {
+  background: var(--color-primary-dark);
+  color: #fff;
+  padding: 56px 24px;
+  text-align: center;
+}
+
+/* Research 頁面的 hero 換成有照片底圖的版本；圖片請放到 assets/img/research/research-hero.jpg，
+   檔案不存在時會自動退回純色背景，不會報錯。 */
+body[data-page="research"] .page-hero {
+  background: var(--color-primary-dark) url("../assets/img/research/research-hero.jpeg") center / cover no-repeat;
+  min-height: 360px;
+}
+
+/* Team 頁面的 hero 跟 Research 頁面一樣換成有照片底圖的版本；圖片請放到 assets/img/team/team-hero.jpg，
+   檔案不存在時會自動退回純色背景，不會報錯。 */
+body[data-page="team"] .page-hero {
+  background: var(--color-primary-dark) url("../assets/img/team/team-hero.jpg") center / cover no-repeat;
+  min-height: 360px;
+}
+
+/* Publications 頁面的 hero 跟 Research / Team 頁面一樣換成有照片底圖的版本；
+   圖片請放到 assets/img/publications/publications-hero.jpg，檔案不存在時會自動退回純色背景，不會報錯。 */
+body[data-page="publications"] .page-hero {
+  background: var(--color-primary-dark) url("../assets/img/publications/publications-hero.jpg") center / cover no-repeat;
+  min-height: 360px;
+}
+
+/* ===== Section layout ===== */
+.section {
+  padding: 72px 24px;
+}
+
+.section-alt {
+  background: var(--color-bg);
+}
+
+.section-title {
+  position: relative;
+  font-size: 1.7rem;
+  margin: 0 0 24px;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.section-title::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 56px;
+  height: 3px;
+  background: rgb(194, 166, 249);
+  border-radius: 2px;
+  transform: translateX(-50%);
+}
+
+.section-subtitle {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin: 0 0 40px;
+}
+
+/* ===== Cards / grid ===== */
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+#research-preview-grid {
+  margin-top: 40px;
+}
+
+.card {
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+.card-image {
+  display: block;
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+
+.card:hover .card-image {
+  opacity: 1;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.card h3 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  text-align: left;
+}
+
+.card p {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+  text-align: justify;
+  margin: 0;
+}
+
+/* ===== Research 頁面：長文清單排版，不用卡片 ===== */
+.research-intro {
+  max-width: 860px;
+  margin: 0 auto 56px;
+  color: var(--color-text-muted);
+  text-align: justify;
+  line-height: 1.8;
+}
+
+.research-list {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.research-topic {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.research-topic:first-child {
+  padding-top: 0;
+}
+
+/* ===== Publications 頁面：篩選列（年份／類型／作者搜尋，套用到下面三個清單） ===== */
+.pub-filter-bar-section {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 32px 24px 0;
+}
+
+.pub-filter-bar {
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 18px 28px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.pub-filter-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pub-filter-label {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pub-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pub-filter-chip {
+  background: none;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.82rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.pub-filter-chip:hover {
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.pub-filter-chip.active {
+  background: var(--color-accent-translucent);
+  border-color: var(--color-accent);
+  color: #fff;
+}
+
+.pub-filter-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.pub-filter-checkbox input {
+  accent-color: var(--color-accent);
+  cursor: pointer;
+}
+
+.pub-filter-search {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  color: #fff;
+  padding: 6px 16px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  min-width: 220px;
+}
+
+.pub-filter-search::placeholder {
+  color: var(--color-text-muted);
+}
+
+.pub-filter-search:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.pub-filter-empty {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 40px 0;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* ===== Publications 頁面：清單外框（journals／conferences／patents 共用） ===== */
+.publication-list {
+  max-width: 860px;
+  margin: 0 auto;
+  padding-left: 0;
+  list-style: none;
+}
+
+/* ===== Publications 頁面：論文卡片（journals 用封面/編號，conferences／patents 固定用編號） =====
+   .journal-item／.pub-card-item 共用同一套版面骨架；文字排版（標題/作者/出處資訊/Link）共用
+   .pub-card-title／.pub-card-authors／.pub-card-info／.pub-card-link 這幾個 class。 */
+.journal-item,
+.pub-card-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px 16px;
+  margin: 0 -16px;
+  border-bottom: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.journal-item:first-child,
+.pub-card-item:first-child {
+  margin-top: -24px;
+}
+
+.journal-item:hover,
+.pub-card-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+  background: var(--color-surface);
+}
+
+.journal-item:hover .pub-card-title,
+.journal-item:hover .pub-card-authors,
+.journal-item:hover .pub-card-info,
+.pub-card-item:hover .pub-card-title,
+.pub-card-item:hover .pub-card-authors,
+.pub-card-item:hover .pub-card-info {
+  color: #fff;
+}
+
+.journal-item:hover .pub-card-tag,
+.pub-card-item:hover .pub-card-tag {
+  color: #fff;
+  border-color: #fff;
+}
+
+.journal-cover {
+  flex: 0 0 96px;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.journal-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.journal-cover .journal-number {
+  display: none;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.journal-cover.no-cover .journal-number {
+  display: block;
+}
+
+/* conferences／patents：不顯示圖片，固定用編號方塊 */
+.pub-card-number {
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.pub-card-flag {
+  display: inline-block;
+  width: 18px;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 6px;
+  position: relative;
+  top: -1px;
+}
+
+.pub-card-tags {
+  margin: 8px 0 0;
+}
+
+.pub-card-tag {
+  display: inline-block;
+  padding: 2px 10px;
+  margin: 0 8px 8px 0;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  color: var(--color-accent);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.6;
+  vertical-align: middle;
+}
+
+.pub-card-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.pub-card-title {
+  margin: 0 0 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+.pub-card-authors {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.pub-card-info {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.pub-card-link {
+  margin-left: 4px;
+  color: var(--color-accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.pub-card-link:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
+.research-topic:last-child {
+  border-bottom: none;
+}
+
+.research-topic h2 {
+  position: relative;
+  font-size: 1.5rem;
+  margin: 0 0 24px;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.research-topic h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 56px;
+  height: 3px;
+  background: rgb(194, 166, 249);
+  border-radius: 2px;
+  transform: translateX(-50%);
+}
+
+.research-image {
+  display: block;
+  max-width: 100%;
+  margin: 0 auto 24px;
+  border-radius: var(--radius);
+}
+
+.research-topic p {
+  color: var(--color-text-muted);
+  text-align: justify;
+  line-height: 1.8;
+  margin: 0 0 16px;
+}
+
+.research-topic p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Team 頁面：主持人區塊 + 成員卡片 ===== */
+.team-pi {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 16px;
+  border-radius: var(--radius);
+  background-color: transparent;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.team-pi:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.team-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.team-pi-links {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 8px;
+}
+
+.team-pi-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--color-accent-translucent);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.team-pi-link:hover {
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+}
+
+.team-pi-photo-wrap {
+  flex-shrink: 0;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.team-pi-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-pi-info h3 {
+  margin: 0 0 2px;
+  font-size: 1.6rem;
+}
+
+.team-pi-info p:not(.team-role) {
+  color: var(--color-text-muted);
+  margin: 0 0 8px;
+}
+
+.team-role {
+  color: var(--color-accent);
+  font-weight: 600;
+  margin: 0 0 6px;
+}
+
+.team-extra {
+  padding-left: 8px;
+}
+
+.team-member {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  text-align: left;
+  padding: 16px;
+  border-radius: var(--radius);
+  background-color: transparent;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.team-member:hover {
+  transform: translateY(-4px);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.team-member-photo-wrap {
+  flex-shrink: 0;
+  width: 168px;
+  height: 168px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.team-member-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-member h3 {
+  margin: 0 0 2px;
+  font-size: 1.6rem;
+}
+
+.team-meta {
+  color: var(--color-text-muted);
+  margin: 4px 0 0;
+}
+
+/* ===== Funding cards（只放 logo + 單位名稱，置中對齊） ===== */
+.funding-card .card-body {
+  padding: 16px 20px;
+}
+
+.funding-card h3 {
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.funding-logo {
+  display: block;
+  width: calc(100% - 32px);
+  height: 120px;
+  margin: 16px auto 0;
+  object-fit: contain;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 16px;
+  border-radius: var(--radius);
+}
+
+/* ===== News list ===== */
+.news-list {
+  max-width: 760px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+.news-item {
+  display: flex;
+  gap: 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.news-date {
+  flex: 0 0 100px;
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+.news-text {
+  color: var(--color-text);
+}
+
+.news-item {
+  cursor: pointer;
+}
+
+.news-item:hover .news-text {
+  color: var(--color-accent);
+}
+
+.news-toggle-wrap {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--color-accent);
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0;
+}
+
+.btn-text:hover {
+  text-decoration: underline;
+}
+
+/* ===== Modal ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 5, 14, 0.75);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  max-width: 560px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 32px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: var(--color-text);
+}
+
+.modal img {
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+}
+
+.modal .modal-date {
+  color: var(--color-accent);
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 8px;
+}
+
+/* ===== Buttons ===== */
+.btn {
+  display: inline-block;
+  background-color: var(--color-accent-translucent);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-weight: 600;
+  padding: 11px 26px;
+  border-radius: 999px;
+  margin-top: 24px;
+}
+
+.btn:hover {
+  background-color: var(--color-accent-dark);
+  border-color: var(--color-accent-dark);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Contact 頁面的 hero 跟 Research / Team / Publications 頁面一樣換成有照片底圖的版本；
+   圖片請放到 assets/img/contact/contact-hero.jpg，檔案不存在時會自動退回純色背景，不會報錯。 */
+body[data-page="contact"] .page-hero {
+  background: var(--color-primary-dark) url("../assets/img/contact/contact-hero.jpg") center / cover no-repeat;
+  min-height: 360px;
+}
+
+/* ===== Contact 頁面：左側聯絡資訊＋右側地圖 ===== */
+.contact-layout {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.contact-info {
+  flex: 1 1 320px;
+}
+
+.contact-block {
+  margin-bottom: 28px;
+}
+
+.contact-label {
+  margin: 0 0 4px;
+  color: var(--color-accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.contact-value {
+  margin: 0 0 4px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+.contact-map {
+  flex: 1 1 420px;
+}
+
+.contact-map iframe {
+  width: 100%;
+  height: 360px;
+  border: 0;
+  border-radius: var(--radius);
+}
+
+/* ===== Footer ===== */
+#site-footer {
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  border-top: 1px solid var(--color-border);
+  padding: 72px 24px 0;
+  margin: 0;
+  font-size: 0.88rem;
+}
+
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.footer-inner a {
+  color: #ddd3ee;
+}
+
+.footer-bottom {
+  max-width: var(--max-width);
+  margin: 32px auto 0;
+  padding: 20px 0;
+  text-align: center;
+  font-size: 0.82rem;
+}
+
+.footer-bottom a {
+  color: #ddd3ee;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: var(--color-accent);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 860px) {
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  /* 窄螢幕：封面圖換成編號 */
+  .journal-cover img {
+    display: none;
+  }
+
+  .journal-cover .journal-number {
+    display: block;
+  }
+
+  /* .contact-layout 桌面版用 align-items: flex-start 讓左右兩欄不被拉成等高，但這個設定在
+     flex-direction 變成 column 之後，交叉軸（這時候是水平方向）也會被影響，導致兩欄縮成
+     內容本身的寬度，而不是撐滿整個畫面寬度（窄螢幕下「資訊／地圖只佔半個畫面」的成因）。
+     這裡疊加 align-items: stretch 蓋掉，讓堆疊起來的兩欄都撐滿可用寬度。 */
+  .contact-layout {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-3,
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-toggle-btn {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    border-top: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 16px 24px;
+    gap: 16px;
+    display: none;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .team-pi,
+  .team-member {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .team-extra {
+    padding-left: 0;
+  }
+
+  /* 手機直式：隱藏作者群，只留標題和出處資訊 */
+  .pub-card-authors {
+    display: none;
+  }
+
+  .journal-cover,
+  .pub-card-number {
+    flex: 0 0 56px;
+    width: 56px;
+    height: 56px;
+  }
+
+  .journal-cover .journal-number,
+  .pub-card-number {
+    font-size: 1.1rem;
+  }
+}

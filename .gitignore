@@ -1,0 +1,30 @@
+# 白名單模式：先忽略根目錄底下所有東西，再逐一放行網站真正需要的檔案／資料夾。
+# 以後在根目錄新增任何筆記、草稿，預設都不會被上傳；要上傳新的網頁，記得在下面加一行 !/xxx.html。
+/*
+
+!/.gitignore
+!/index.html
+!/research.html
+!/team.html
+!/publications.html
+!/contact.html
+!/css/
+!/js/
+!/assets/
+
+# assets 裡的原始檔／非網頁格式一律不上傳
+*.pptx
+*.ppt
+*.docx
+*.xlsx
+*.psd
+*.ai
+
+# 網站沒有用到、不公開的研究圖片
+/assets/img/research/MIR_field.png
+/assets/img/research/research_short_pulse_gen.png
+
+# 作業系統自動產生的檔案
+Thumbs.db
+desktop.ini
+.DS_Store

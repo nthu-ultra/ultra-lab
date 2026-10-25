@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ULTRA Lab | NTHU</title>
+  <link rel="icon" href="assets/img/favicon.png" type="image/png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="home">
+
+  <header id="site-header"></header>
+
+  <section class="hero">
+    <h1>ULTRA Lab</h1>
+    <p class="hero-fullname">Ultrafast Laser Technologies, Research and Applications</p>
+    <a href="research.html" class="btn" id="hero-cta"></a>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title" id="research-section-title"></h2>
+    <div class="grid grid-3" id="research-preview-grid"></div>
+  </section>
+
+  <section class="section section-alt">
+    <h2 class="section-title" id="news-section-title"></h2>
+    <ul class="news-list" id="news-list"></ul>
+    <div class="news-toggle-wrap">
+      <button class="btn-text" id="news-toggle-btn"></button>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title" id="funding-section-title"></h2>
+    <div class="grid grid-3 funding-grid" id="funding-grid"></div>
+  </section>
+
+  <footer id="site-footer"></footer>
+
+  <div class="modal-overlay" id="news-modal-overlay">
+    <div class="modal">
+      <button class="modal-close" id="news-modal-close" aria-label="Close">&times;</button>
+      <div id="news-modal-body"></div>
+    </div>
+  </div>
+
+  <script src="js/i18n.js"></script>
+  <script src="js/data/contact.js"></script>
+  <script src="js/data/research.js"></script>
+  <script src="js/data/news.js"></script>
+  <script src="js/data/funding.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/pages/home.js"></script>
+</body>
+</html>
